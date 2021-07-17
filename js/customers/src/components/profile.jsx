@@ -1,51 +1,60 @@
-import React, { Component, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import NavBar from './navbar';
 import MaterialTable from "material-table";
-
+import { useParams } from 'react-router-dom';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 
-const tableIcons = {
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  };
+import customersData from '../data/customers.json'
 
-class Profile extends Component {
-    render() {
+const customerQuery = (id) => {
+    const customers = customersData.filter(customer => (Number(customer.id) === Number(id)));
+    return customers.length ? customers[0] : false;
+}
+
+const Profile = (props) => {
+    const { id } = useParams();
+    const customer = customerQuery(id);
+    const tableIcons = {
+        FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+        LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+        NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+        PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+        SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    };
+
+    if (customer) {
         return (
-          <React.Fragment>
-                <NavBar 
+            <React.Fragment>
+                <NavBar
                     title={"Customer Profile"}
                     isSearch={false} />
                 <div className={"p-4 justify-content-center d-flex"}>
-                    <div className={"card border-secondary mr-sm-4"} style={{width: '100%', maxWidth: '1000px'}}>
-                        <div className={"card-header font-weight-bold"}>John Doe</div>
-                        <div class="card-body">
+                    <div className={"card border-secondary mr-sm-4"} style={{ width: '100%', maxWidth: '1000px' }}>
+                        <div className={"card-header font-weight-bold"}>{customer.first_name} {customer.last_name}</div>
+                        <div className="card-body">
                             <p className={"card-text"}>
-                                <span className={"font-weight-bold"} style={{display:'inline-block', width: '80px'}}>Email:</span> 
-                                <span>john.doe@email.com</span>
+                                <span className={"font-weight-bold"} style={{ display: 'inline-block', width: '80px' }}>Email:</span>
+                                <span>{customer.email}</span>
                             </p>
                             <p className={"card-text"}>
-                                <span className={"font-weight-bold"} style={{display:'inline-block', width: '80px'}}>Phone:</span> 
+                                <span className={"font-weight-bold"} style={{ display: 'inline-block', width: '80px' }}>Phone:</span>
                                 <span>123-123-1234</span>
                             </p>
                             <p className={"card-text"}>
-                                <span className={"font-weight-bold"} style={{display:'inline-block', width: '80px'}}>Mobile:</span>  
+                                <span className={"font-weight-bold"} style={{ display: 'inline-block', width: '80px' }}>Mobile:</span>
                                 <span>123-123-9876</span>
                             </p>
                             <p className={"card-text"}>
-                                <span className={"font-weight-bold"} style={{display:'inline-block', width: '80px'}}>Since:</span> 
+                                <span className={"font-weight-bold"} style={{ display: 'inline-block', width: '80px' }}>Since:</span>
                                 <span>March 2015</span>
                             </p>
                             <p className={"card-text"}>
-                                <span className={"font-weight-bold"} style={{display:'inline-block', width: '80px'}}>Location:</span> 
-                                <span>162.142.45.140, 8.13333</span>
+                                <span className={"font-weight-bold"} style={{ display: 'inline-block', width: '80px' }}>Location:</span>
+                                <span>{customer.ip}, {customer.latitude}, {customer.longitude}</span>
                             </p>
                             <div className={"card-text"}><span className={"font-weight-bold"}>Interests</span></div>
                             <p>
@@ -54,12 +63,12 @@ class Profile extends Component {
                                 <span className={"badge badge-secondary mr-2"}>Fortnite</span>
                                 <span className={"badge badge-secondary mr-2"}>Mother of Dragons</span>
                             </p>
-                            <p class="card-text"><span className="font-weight-bold">Orders</span></p>
+                            <p className="card-text"><span className="font-weight-bold">Orders</span></p>
                             <MaterialTable
                                 columns={[
                                     { title: "#", field: "id" },
                                     { title: "Date", field: "date" },
-                                    { title: "Status", field: "status"},
+                                    { title: "Status", field: "status" },
                                     { title: "Actions", field: "action" }
                                 ]}
                                 data={[
@@ -84,17 +93,30 @@ class Profile extends Component {
                                 ]}
                                 options={{
                                     toolbar: false,
-                                    cellStyle: {paddingTop: '15px', paddingBottom: '15px', fontSize: '80%'},
-                                    headerStyle: {paddingTop: '15px', paddingBottom: '15px', fontSize: '80%', fontWeight: 'bold'},
+                                    cellStyle: { paddingTop: '15px', paddingBottom: '15px', fontSize: '80%' },
+                                    headerStyle: { paddingTop: '15px', paddingBottom: '15px', fontSize: '80%', fontWeight: 'bold' },
                                 }}
                                 icons={tableIcons}
                             />
                         </div>
-                    </div> 
+                    </div>
                 </div>
-          </React.Fragment>
+            </React.Fragment>
         );
-      }
+    } else {
+        return (
+            <React.Fragment>
+                <NavBar
+                    title={"Customer Profile"}
+                    isSearch={false} />
+                <div className={"p-4 justify-content-center d-flex"}>
+                    <div className={"card border-secondary mr-sm-4"} style={{ width: '100%', maxWidth: '1000px' }}>
+                        <div className={"card-header font-weight-bold"}>No Data. ID is wrong.</div>
+                    </div>
+                </div>
+            </React.Fragment>
+        );
+    }
 }
 
 export default Profile;

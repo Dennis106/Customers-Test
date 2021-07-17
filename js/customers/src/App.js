@@ -14,8 +14,8 @@ class App extends Component {
       <Router>
         <div>
           <Switch>
-            <Route path="/profile">
-              <Profile />
+            <Route path="/profile/:id">
+              <Profile {...this.props}/>
             </Route>
             <Route path="/">
               <Customers />

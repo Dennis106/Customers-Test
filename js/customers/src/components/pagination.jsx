@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import {ChevronDoubleLeft, ChevronDoubleRight, ChevronLeft, ChevronRight} from 'react-bootstrap-icons';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
 
 class Pagination extends Component {
     render() { 
@@ -8,25 +11,25 @@ class Pagination extends Component {
         return ( 
             <div className={"d-flex py-2 justify-content-center"}>
                 <div className = {"d-flex"}>
-                    {currentPage == 1 ? 
+                    {currentPage === 1 ? 
                         <>
-                            <a className={"d-flex align-items-center"}><ChevronDoubleLeft style={{color:'grey'}}/></a>
-                            <a className={"d-flex align-items-center"}><ChevronLeft style={{color: 'grey'}}/></a>
+                            <span className={"d-flex align-items-center"}><FirstPage style={{color:'grey'}}/></span>
+                            <span className={"d-flex align-items-center"}><ChevronLeft style={{color: 'grey'}}/></span>
                         </> : 
                         <>
-                            <a className={"d-flex align-items-center"} onClick={onFirstPage}><ChevronDoubleLeft style={{color:'blue'}}/></a>
-                            <a className={"d-flex align-items-center"} onClick={onPrevPage}><ChevronLeft style={{color: 'blue'}}/></a>
+                            <span className={"d-flex align-items-center"} onClick={onFirstPage}><FirstPage style={{color:'blue'}}/></span>
+                            <span className={"d-flex align-items-center"} onClick={onPrevPage}><ChevronLeft style={{color: 'blue'}}/></span>
                         </>
                     }
                     <span className="mr-sm-2 ml-sm-2 border px-3">{currentPage}</span>
-                    {currentPage == totalPage ? 
+                    {currentPage === totalPage ? 
                         <>
-                            <a className={"d-flex align-items-center"}><ChevronRight style={{color:'grey'}}/></a>
-                            <a className={"d-flex align-items-center"}><ChevronDoubleRight style={{color:'grey'}}/></a>
+                            <span className={"d-flex align-items-center"}><ChevronRight style={{color:'grey'}}/></span>
+                            <span className={"d-flex align-items-center"}><LastPage style={{color:'grey'}}/></span>
                         </> : 
                         <>
-                            <a className={"d-flex align-items-center"} onClick={onNextPage}><ChevronRight style={{color:'blue'}}/></a>
-                            <a className={"d-flex align-items-center"} onClick={onLastPage}><ChevronDoubleRight style={{color:'blue'}}/></a>
+                            <span className={"d-flex align-items-center"} onClick={onNextPage}><ChevronRight style={{color:'blue'}}/></span>
+                            <span className={"d-flex align-items-center"} onClick={onLastPage}><LastPage style={{color:'blue'}}/></span>
                         </>
                     }
                 </div>

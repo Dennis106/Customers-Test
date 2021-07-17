@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import customersData from '../data/customers.json'
+
 import Table from './table'
 import NavBar from './navbar';
 import Pagination from './pagination';
+import customersData from '../data/customers.json'
 
 class Customers extends Component {
   state = {
     currentPage: 1,
     totalPage: 0,
-    listPerPage: 12,
+    listPerPage: process.env.REACT_APP_LIST_PER_PAGE, // To test only Env file
     searchString: "",
     customers: []
   }
@@ -21,21 +22,27 @@ class Customers extends Component {
     this.setState({customers: customersData, totalPage: totalPage});
   }
 
-  handleSearch = value => {
-    const filteredCustomers = (value === "") ? 
+  searchQuery(keyword) {
+    const searchedCustomers = (keyword === "") ? 
       customersData
       : customersData.filter(customer => 
           (
-              customer.email.includes(value)
-              || customer.first_name.includes(value)
-              || customer.last_name.includes(value)
-              || customer.ip.includes(value)
-              || (''+customer.latitude).includes(value)
-              || (''+customer.longitude).includes(value)
-              || (''+customer.created_at).includes(value)
-              || (''+customer.updated_at).includes(value)
+              customer.email.includes(keyword)
+              || customer.first_name.includes(keyword)
+              || customer.last_name.includes(keyword)
+              || customer.ip.includes(keyword)
+              || (''+customer.latitude).includes(keyword)
+              || (''+customer.longitude).includes(keyword)
+              || (''+customer.created_at).includes(keyword)
+              || (''+customer.updated_at).includes(keyword)
           )
     );
+    return searchedCustomers;
+  }
+
+  handleSearch = value => {
+    const filteredCustomers = this.searchQuery(value);
+    
     const listPerPage = this.state.listPerPage;
     let count = filteredCustomers.length;
     let totalPage = Math.ceil(count/listPerPage);

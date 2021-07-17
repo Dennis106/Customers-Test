@@ -17,7 +17,7 @@ class DataRow extends Component {
                 <DataCell value={customer.created_at} style={{width: '14%'}} />
                 <DataCell value={customer.updated_at} style={{width: '14%'}} />
                 <div style={{width: '4%'}} className="text-center">
-                    <a href="/profile"><PencilSquare/></a>
+                    <a href={"/profile/"+customer.id}><PencilSquare/></a>
                 </div>
             </div>
         );
